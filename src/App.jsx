@@ -17,8 +17,13 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
-const NAV_LINKS = ["How It Works", "Features", "Impact", "Get Started"];
- 
+const NAV_LINKS = [
+  { label: "Impact", href: "#impact" },
+  { label: "Features", href: "#features" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Get Started", href: "#get-started" },
+];
+
 const STATS = [
   { value: "8M+", label: "Tonnes of plastic enter oceans yearly" },
   { value: "71%", label: "Of Earth is covered by ocean" },
@@ -125,11 +130,11 @@ export default function HomePage() {
           <span className="sf-logo-text">seafoot</span>
         </a>
         <ul className={`sf-nav-links${menuOpen ? " sf-nav-links--open" : ""}`}>
-          {NAV_LINKS.map((l) => (
-            <li key={l}>
-              <a href="#" onClick={() => setMenuOpen(false)}>{l}</a>
-            </li>
-          ))}
+        {NAV_LINKS.map((l) => (
+          <li key={l.label}>
+            <a href={l.href}>{l.label}</a>
+          </li>
+        ))}
         </ul>
         <button
           className="sf-hamburger"
@@ -177,7 +182,7 @@ export default function HomePage() {
       <WaveDivider />
  
       {/* STATS */}
-      <section className="sf-stats">
+      <section className="sf-stats" id="impact">
         <div className="sf-container">
           <p className="sf-section-label">Why it matters</p>
           <h2 className="sf-section-title">The ocean is telling us something.</h2>
@@ -192,7 +197,7 @@ export default function HomePage() {
       <WaveDivider flip />
  
       {/* FEATURES */}
-      <section className="sf-features">
+      <section className="sf-features" id="features">
         <div className="sf-container">
           <p className="sf-section-label">Features</p>
           <h2 className="sf-section-title">Built for the ocean. <em>Made for you.</em></h2>
@@ -211,7 +216,7 @@ export default function HomePage() {
       <WaveDivider />
  
       {/* HOW IT WORKS */}
-      <section className="sf-how">
+      <section className="sf-how" id="how-it-works">
         <div className="sf-container">
           <p className="sf-section-label">How it works</p>
           <h2 className="sf-section-title">Four steps to clearer waters.</h2>
@@ -269,7 +274,7 @@ export default function HomePage() {
       <WaveDivider />
  
       {/* CTA */}
-      <section className="sf-cta">
+      <section className="sf-cta" id="get-started">
         <div className="sf-container sf-cta-inner">
           <span className="sf-cta-glyph" aria-hidden="true">🌊</span>
           <h2 className="sf-cta-title">Your ocean journey starts with one step.</h2>

@@ -88,61 +88,37 @@ function getBestMove(categories, form, city) {
     if (!form.hasEV) {
       return {
         title: "Switch to EV or go car-free 2 days/week",
-        text: `Transport is your largest category at ${top.value.toFixed(
-          1
-        )} t/yr. In ${city}, changing your driving habits can noticeably cut emissions.`,
-        saving: `Potential saving: ~${Math.max(
-          0.6,
-          top.value * 0.35
-        ).toFixed(1)} t CO₂e/yr · High impact, medium effort`,
+        text: `Transport is your largest category at ${top.value.toFixed(1)} t/yr. In ${city}, changing your driving habits can noticeably cut emissions.`,
+        saving: `Potential saving: ~${Math.max(0.6, top.value * 0.35).toFixed(1)} t CO₂e/yr · High impact, medium effort`,
       };
     }
-
     return {
       title: "Drive less even with an EV",
-      text: `Transport is still your largest category at ${top.value.toFixed(
-        1
-      )} t/yr. Try transit, carpooling, or combining trips.`,
-      saving: `Potential saving: ~${Math.max(
-        0.3,
-        top.value * 0.2
-      ).toFixed(1)} t CO₂e/yr · High impact, low-medium effort`,
+      text: `Transport is still your largest category at ${top.value.toFixed(1)} t/yr. Try transit, carpooling, or combining trips.`,
+      saving: `Potential saving: ~${Math.max(0.3, top.value * 0.2).toFixed(1)} t CO₂e/yr · High impact, low-medium effort`,
     };
   }
 
   if (top.key === "home") {
     return {
       title: "Cut home electricity use",
-      text: `Home energy is your largest category at ${top.value.toFixed(
-        1
-      )} t/yr. In ${city}, local grid emissions make electricity use important.`,
-      saving: `Potential saving: ~${Math.max(
-        0.4,
-        top.value * 0.25
-      ).toFixed(1)} t CO₂e/yr · Medium impact, low effort`,
+      text: `Home energy is your largest category at ${top.value.toFixed(1)} t/yr. In ${city}, local grid emissions make electricity use important.`,
+      saving: `Potential saving: ~${Math.max(0.4, top.value * 0.25).toFixed(1)} t CO₂e/yr · Medium impact, low effort`,
     };
   }
 
   if (top.key === "diet") {
     return {
       title: "Shift a few meals plant-forward",
-      text: `Diet is your largest category at ${top.value.toFixed(
-        1
-      )} t/yr. Reducing meat-heavy meals each week can help a lot.`,
-      saving: `Potential saving: ~${Math.max(
-        0.4,
-        top.value * 0.3
-      ).toFixed(1)} t CO₂e/yr · Medium-high impact, medium effort`,
+      text: `Diet is your largest category at ${top.value.toFixed(1)} t/yr. Reducing meat-heavy meals each week can help a lot.`,
+      saving: `Potential saving: ~${Math.max(0.4, top.value * 0.3).toFixed(1)} t CO₂e/yr · Medium-high impact, medium effort`,
     };
   }
 
   return {
     title: "Buy less, buy longer-lasting",
     text: `Shopping is one of your biggest categories. Cutting unnecessary purchases can reduce your footprint.`,
-    saving: `Potential saving: ~${Math.max(
-      0.3,
-      top.value * 0.25
-    ).toFixed(1)} t CO₂e/yr · Medium impact, medium effort`,
+    saving: `Potential saving: ~${Math.max(0.3, top.value * 0.25).toFixed(1)} t CO₂e/yr · Medium impact, medium effort`,
   };
 }
 
@@ -214,20 +190,20 @@ export default function Calculator({ onBack }) {
           </p>
         </div>
 
+        {/* ── QUESTIONS ── */}
+        <h2 className="calc-section-title">Questions</h2>
+
         <div className="calc-controls">
           <div className="calc-badge">
             ZIP {cityInfo.zip} · Grid: {cityInfo.gridKgPerKwh.toFixed(2)} kg CO₂/kWh
           </div>
-
           <select
             className="calc-city-select"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           >
             {Object.keys(CITY_DATA).map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
+              <option key={name} value={name}>{name}</option>
             ))}
           </select>
         </div>
@@ -240,9 +216,7 @@ export default function Calculator({ onBack }) {
                 type="number"
                 min="0"
                 value={form.milesPerWeek}
-                onChange={(e) =>
-                  updateField("milesPerWeek", cleanNumberInput(e.target.value))
-                }
+                onChange={(e) => updateField("milesPerWeek", cleanNumberInput(e.target.value))}
               />
             </label>
 
@@ -252,18 +226,13 @@ export default function Calculator({ onBack }) {
                 type="number"
                 min="0"
                 value={form.electricityKwhMonth}
-                onChange={(e) =>
-                  updateField("electricityKwhMonth", cleanNumberInput(e.target.value))
-                }
+                onChange={(e) => updateField("electricityKwhMonth", cleanNumberInput(e.target.value))}
               />
             </label>
 
             <label className="calc-field">
               <span>Diet</span>
-              <select
-                value={form.diet}
-                onChange={(e) => updateField("diet", e.target.value)}
-              >
+              <select value={form.diet} onChange={(e) => updateField("diet", e.target.value)}>
                 <option value="vegan">Vegan</option>
                 <option value="vegetarian">Vegetarian</option>
                 <option value="mixed">Mixed</option>
@@ -273,14 +242,9 @@ export default function Calculator({ onBack }) {
 
             <label className="calc-field">
               <span>Shopping Frequency (times a week)</span>
-              <select
-                value={form.shoppingDays}
-                onChange={(e) => updateField("shoppingDays", e.target.value)}
-              >
+              <select value={form.shoppingDays} onChange={(e) => updateField("shoppingDays", e.target.value)}>
                 {[0, 1, 2, 3, 4, 5, 6, 7].map((day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
+                  <option key={day} value={day}>{day}</option>
                 ))}
               </select>
             </label>
@@ -291,9 +255,7 @@ export default function Calculator({ onBack }) {
                 type="number"
                 min="0"
                 value={form.flightsPerYear}
-                onChange={(e) =>
-                  updateField("flightsPerYear", cleanNumberInput(e.target.value))
-                }
+                onChange={(e) => updateField("flightsPerYear", cleanNumberInput(e.target.value))}
               />
             </label>
 
@@ -308,13 +270,15 @@ export default function Calculator({ onBack }) {
           </div>
         </div>
 
+        {/* ── RESULTS ── */}
+        <h2 className="calc-section-title">Results</h2>
+
         <div className="calc-summary-grid">
           <div className="calc-stat">
             <p className="calc-stat-label">Your footprint</p>
             <h2>{formatTons(result.total)}</h2>
             <p>CO₂e per year</p>
           </div>
-
           <div className="calc-stat">
             <p className="calc-stat-label">Vs. your ZIP</p>
             <h2 className={result.vsZip <= 0 ? "good" : "bad"}>
@@ -322,7 +286,6 @@ export default function Calculator({ onBack }) {
             </h2>
             <p>Avg: {formatTons(cityInfo.zipAvg)}</p>
           </div>
-
           <div className="calc-stat">
             <p className="calc-stat-label">Vs. US avg</p>
             <h2 className={result.vsUs <= 0 ? "good" : "bad"}>
@@ -330,7 +293,6 @@ export default function Calculator({ onBack }) {
             </h2>
             <p>Avg: {formatTons(cityInfo.usAvg)}</p>
           </div>
-
           <div className="calc-stat">
             <p className="calc-stat-label">1.5°C target</p>
             <h2 className={result.targetRatio <= 1 ? "good" : "bad"}>
@@ -361,7 +323,6 @@ export default function Calculator({ onBack }) {
 
           <div className="calc-panel">
             <h3>Neighborhood benchmark</h3>
-
             <div className="benchmark-list">
               {[
                 { label: "Your ZIP", avg: cityInfo.zipAvg },
@@ -381,12 +342,14 @@ export default function Calculator({ onBack }) {
                 </div>
               ))}
             </div>
-
             <p className="benchmark-note">
               Vertical line = your footprint ({result.total.toFixed(1)} t)
             </p>
           </div>
         </div>
+
+        {/* ── RECOMMENDATIONS ── */}
+        <h2 className="calc-section-title">Recommendations</h2>
 
         <div className="calc-best-move">
           <p className="calc-best-move-kicker">Your single best move</p>
@@ -394,6 +357,7 @@ export default function Calculator({ onBack }) {
           <p>{result.bestMove.text}</p>
           <strong>{result.bestMove.saving}</strong>
         </div>
+
       </section>
     </div>
   );

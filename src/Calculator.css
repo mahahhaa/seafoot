@@ -343,3 +343,12 @@
     gap: 0.45rem;
   }
 }
+
+.calc-section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  color: #ffffff;
+  margin: 3rem 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(180, 207, 228, 0.12);
+}

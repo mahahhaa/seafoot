@@ -1,21 +1,6 @@
-/*import Message from './Message';
-
-function App() {
-  return (
-    <div>
-      <Message />
-    </div>
-  );
-}
-  
-
-export default App;
-*/
 import { useState, useRef, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
+import Calculator from "./Calculator";
 
 const NAV_LINKS = [
   { label: "Impact", href: "#impact" },
@@ -29,7 +14,7 @@ const STATS = [
   { value: "71%", label: "Of Earth is covered by ocean" },
   { value: "2°C", label: "Ocean warming since pre-industrial era" },
 ];
- 
+
 const FEATURES = [
   {
     icon: "🌊",
@@ -52,29 +37,30 @@ const FEATURES = [
     desc: "Every reduction you make is mapped to real ocean conservation data. See the patch of reef your choices are protecting.",
   },
 ];
- 
+
 const STEPS = [
   { num: "01", title: "Answer a few questions", body: "Tell us about your lifestyle — it takes under two minutes." },
   { num: "02", title: "See your footprint", body: "We calculate your CO₂ output and ocean impact score." },
   { num: "03", title: "Dive deeper", body: "Explore your breakdown and discover what changes matter most." },
   { num: "04", title: "Make waves", body: "Track progress over time and share your ocean pledge." },
 ];
- 
+
 function AnimatedFish() {
   return (
     <div className="fish-school" aria-hidden="true">
-      {[...Array(7)].map((_,i) => (
+      {[...Array(7)].map((_, i) => (
         <img
-        key={i} 
-        src="/phish.png"
-        alt=""
-        className={`fish fish--${i + 1}`}
-        style={{ width: ["69px", "42.0px", "67px", "42.0px", "69px", "42.0px", "69px"][i] }}/>
+          key={i}
+          src="/phish.png"
+          alt=""
+          className={`fish fish--${i + 1}`}
+          style={{ width: ["69px", "42px", "67px", "42px", "69px", "42px", "69px"][i] }}
+        />
       ))}
     </div>
   );
 }
- 
+
 function WaveDivider({ flip }) {
   return (
     <div className={`wave-divider${flip ? " wave-divider--flip" : ""}`} aria-hidden="true">
@@ -84,11 +70,11 @@ function WaveDivider({ flip }) {
     </div>
   );
 }
- 
+
 function StatCounter({ value, label }) {
   const [displayed, setDisplayed] = useState("0");
   const ref = useRef(null);
- 
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -102,7 +88,7 @@ function StatCounter({ value, label }) {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [value]);
- 
+
   return (
     <div className="stat-item" ref={ref}>
       <span className="stat-value">{displayed}</span>
@@ -110,17 +96,22 @@ function StatCounter({ value, label }) {
     </div>
   );
 }
- 
+
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
- 
+  const [page, setPage] = useState("home");
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
- 
+
+  if (page === "calculate") {
+    return <Calculator onBack={() => setPage("home")} />;
+  }
+
   return (
     <div className="sf-root">
       {/* NAV */}
@@ -130,11 +121,19 @@ export default function HomePage() {
           <span className="sf-logo-text">seafoot</span>
         </a>
         <ul className={`sf-nav-links${menuOpen ? " sf-nav-links--open" : ""}`}>
-        {NAV_LINKS.map((l) => (
-          <li key={l.label}>
-            <a href={l.href}>{l.label}</a>
+          {NAV_LINKS.map((l) => (
+            <li key={l.label}>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))}
+          <li>
+            {/* <button
+              className="sf-nav-cta"
+              onClick={() => setPage("calculate")}
+            >
+              Calculate Now
+            </button> */}
           </li>
-        ))}
         </ul>
         <button
           className="sf-hamburger"
@@ -144,7 +143,7 @@ export default function HomePage() {
           <span /><span /><span />
         </button>
       </nav>
- 
+
       {/* HERO */}
       <section className="sf-hero">
         <div className="sf-hero-bg">
@@ -156,7 +155,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
- 
+
         <div className="sf-hero-content">
           <p className="sf-hero-eyebrow">Your ocean. Your responsibility.</p>
           <h1 className="sf-hero-headline">
@@ -167,20 +166,29 @@ export default function HomePage() {
             Seafoot translates your everyday choices into ocean impact — then helps you chart a course toward cleaner seas.
           </p>
           <div className="sf-hero-actions">
-            <a href="#" className="sf-btn sf-btn--primary">
+            <button
+              className="sf-btn sf-btn--primary"
+              onClick={() => setPage("calculate")}
+            >
               Dive into Calculating
-            </a>
+            </button>
+            {/* <a href="#how-it-works" className="sf-btn sf-btn--ghost">
+              Watch How It Works ▶
+            </a> */}
+          </div>
+          <div className="sf-hero-trust">
+           
           </div>
         </div>
- 
+
         <div className="sf-hero-scroll-hint" aria-hidden="true">
           <span className="scroll-line" />
           <span className="scroll-dot" />
         </div>
       </section>
- 
+
       <WaveDivider />
- 
+
       {/* STATS */}
       <section className="sf-stats" id="impact">
         <div className="sf-container">
@@ -193,9 +201,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
- 
+
       <WaveDivider flip />
- 
+
       {/* FEATURES */}
       <section className="sf-features" id="features">
         <div className="sf-container">
@@ -212,9 +220,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
- 
+
       <WaveDivider />
- 
+
       {/* HOW IT WORKS */}
       <section className="sf-how" id="how-it-works">
         <div className="sf-container">
@@ -233,9 +241,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
- 
+
       <WaveDivider flip />
- 
+
       {/* CREATURES SECTION */}
       <section className="sf-creatures">
         <div className="sf-container sf-creatures-inner">
@@ -250,12 +258,12 @@ export default function HomePage() {
           <div className="sf-creatures-visual">
             <div className="creature-stack">
               {[
-                { e: "🐳", scale: 1.1, x: "10%", y: "5%", delay: "0s" },
+                { e: "🐳", scale: 1.1, x: "30%", y: "5%",  delay: "0s" },
                 { e: "🐠", scale: 0.8, x: "70%", y: "20%", delay: "0.3s" },
-                { e: "🦑", scale: 0.9, x: "5%", y: "55%", delay: "0.6s" },
-                { e: "🐡", scale: 0.7, x: "55%", y: "60%", delay: "0.9s" },
-                { e: "🪸", scale: 1.0, x: "80%", y: "70%", delay: "1.2s" },
-                { e: "🐚", scale: 0.6, x: "30%", y: "80%", delay: "1.5s" },
+                { e: "🦑", scale: 0.9, x: "5%",  y: "55%", delay: "0.6s" },
+                { e: "🐡", scale: 0.8, x: "55%", y: "60%", delay: "0.9s" },
+                { e: "🪸", scale: 1.0, x: "80%", y: "80%", delay: "1.2s" },
+                { e: "🐚", scale: 0.8, x: "30%", y: "90%", delay: "1.5s" },
               ].map((c, i) => (
                 <span
                   key={i}
@@ -270,9 +278,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
- 
+
       <WaveDivider />
- 
+
       {/* CTA */}
       <section className="sf-cta" id="get-started">
         <div className="sf-container sf-cta-inner">
@@ -281,12 +289,15 @@ export default function HomePage() {
           <p className="sf-cta-body">
             Join thousands making waves for cleaner, healthier seas. Free forever.
           </p>
-          <a href="#" className="sf-btn sf-btn--white">
+          <button
+            className="sf-btn sf-btn--white"
+            onClick={() => setPage("calculate")}
+          >
             Calculate My Sea Footprint
-          </a>
+          </button>
         </div>
       </section>
- 
+
       {/* FOOTER */}
       <footer className="sf-footer">
         <div className="sf-container sf-footer-inner">

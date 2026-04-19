@@ -1,4 +1,4 @@
-import Message from './Message';
+/*import Message from './Message';
 
 function App() {
   return (
@@ -7,6 +7,7 @@ function App() {
     </div>
   );
 }
+  */
 
 export default App;
 import { useState, useRef, useEffect } from 'react'

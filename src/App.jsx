@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Message from './Message';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
 }
 
 export default App;
-=======
 import { useState, useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
@@ -306,4 +304,3 @@ export default function HomePage() {
     </div>
   );
 }
->>>>>>> 9ab362bd1cf2ab11f4049c734d86c96e1f128af2

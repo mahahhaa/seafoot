@@ -79,46 +79,112 @@ function getBestMove(categories, form, city) {
   if (!top) {
     return {
       title: "Nice start",
-      text: "Enter your habits to see your highest-impact improvement.",
+      text: "Enter your habits to see your highest-impact improvement and a more personalized action plan.",
       saving: "Potential saving: —",
+      tips: [
+        "Add your weekly driving, electricity use, diet, shopping frequency, and flights.",
+        "Try changing one habit at a time to see which action lowers your footprint the most.",
+        "Focus on the biggest category first for the fastest improvement."
+      ],
     };
   }
 
   if (top.key === "transport") {
     if (!form.hasEV) {
       return {
-        title: "Switch to EV or go car-free 2 days/week",
-        text: `Transport is your largest category at ${top.value.toFixed(1)} t/yr. In ${city}, changing your driving habits can noticeably cut emissions.`,
-        saving: `Potential saving: ~${Math.max(0.6, top.value * 0.35).toFixed(1)} t CO₂e/yr · High impact, medium effort`,
+        title: "Reduce driving emissions first",
+        text: `Transport is your largest category at ${top.value.toFixed(
+          1
+        )} t/yr. In ${city}, this is the best place to start because cutting car use or switching away from gas gives you the biggest drop the fastest.`,
+        saving: `Potential saving: ~${Math.max(
+          0.6,
+          top.value * 0.35
+        ).toFixed(1)} t CO₂e/yr · High impact, medium effort`,
+        tips: [
+          "Try going car-free 2 days each week by combining trips, walking, biking, or using transit.",
+          "Carpool for school, work, or errands to cut emissions per trip.",
+          "If replacing a car soon, choose an EV or a higher-efficiency vehicle.",
+          "Plan errands in one route instead of making several short drives.",
+          "Reduce unnecessary idling and aggressive driving to improve fuel efficiency."
+        ],
       };
     }
+
     return {
       title: "Drive less even with an EV",
-      text: `Transport is still your largest category at ${top.value.toFixed(1)} t/yr. Try transit, carpooling, or combining trips.`,
-      saving: `Potential saving: ~${Math.max(0.3, top.value * 0.2).toFixed(1)} t CO₂e/yr · High impact, low-medium effort`,
+      text: `Transport is still your largest category at ${top.value.toFixed(
+        1
+      )} t/yr. Even with an EV, fewer trips, shorter routes, and more shared transportation can make a noticeable difference.`,
+      saving: `Potential saving: ~${Math.max(
+        0.3,
+        top.value * 0.2
+      ).toFixed(1)} t CO₂e/yr · High impact, low-medium effort`,
+      tips: [
+        "Replace a few weekly car trips with walking, biking, transit, or carpooling.",
+        "Charge during lower-impact hours if cleaner electricity is available.",
+        "Combine errands into one trip instead of several separate drives.",
+        "Use virtual meetings or remote options when possible to avoid unnecessary travel.",
+        "Aim to lower your weekly miles gradually rather than all at once."
+      ],
     };
   }
 
   if (top.key === "home") {
     return {
-      title: "Cut home electricity use",
-      text: `Home energy is your largest category at ${top.value.toFixed(1)} t/yr. In ${city}, local grid emissions make electricity use important.`,
-      saving: `Potential saving: ~${Math.max(0.4, top.value * 0.25).toFixed(1)} t CO₂e/yr · Medium impact, low effort`,
+      title: "Lower your home electricity use",
+      text: `Home energy is your largest category at ${top.value.toFixed(
+        1
+      )} t/yr. In ${city}, local grid emissions make your monthly electricity use one of the most effective places to cut back.`,
+      saving: `Potential saving: ~${Math.max(
+        0.4,
+        top.value * 0.25
+      ).toFixed(1)} t CO₂e/yr · Medium impact, low effort`,
+      tips: [
+        "Turn off lights, chargers, and electronics when they are not being used.",
+        "Wash clothes in cold water and run full loads when possible.",
+        "Adjust thermostat settings a few degrees to reduce heating and cooling demand.",
+        "Use fans, shade, and natural ventilation before turning to AC.",
+        "Switch older bulbs or appliances to more efficient models over time."
+      ],
     };
   }
 
   if (top.key === "diet") {
     return {
-      title: "Shift a few meals plant-forward",
-      text: `Diet is your largest category at ${top.value.toFixed(1)} t/yr. Reducing meat-heavy meals each week can help a lot.`,
-      saving: `Potential saving: ~${Math.max(0.4, top.value * 0.3).toFixed(1)} t CO₂e/yr · Medium-high impact, medium effort`,
+      title: "Make your diet more plant-forward",
+      text: `Diet is your largest category at ${top.value.toFixed(
+        1
+      )} t/yr. Small food changes repeated every week can add up quickly, especially if you reduce meat-heavy meals.`,
+      saving: `Potential saving: ~${Math.max(
+        0.4,
+        top.value * 0.3
+      ).toFixed(1)} t CO₂e/yr · Medium-high impact, medium effort`,
+      tips: [
+        "Swap a few beef or lamb meals each week for plant-based meals.",
+        "Start with one or two meat-free days each week.",
+        "Choose lower-impact proteins like beans, lentils, tofu, or chickpeas more often.",
+        "Buy only what you will eat to reduce food waste.",
+        "Cook at home more often instead of relying on high-packaging convenience foods."
+      ],
     };
   }
 
   return {
-    title: "Buy less, buy longer-lasting",
-    text: `Shopping is one of your biggest categories. Cutting unnecessary purchases can reduce your footprint.`,
-    saving: `Potential saving: ~${Math.max(0.3, top.value * 0.25).toFixed(1)} t CO₂e/yr · Medium impact, medium effort`,
+    title: "Reduce shopping and buy more intentionally",
+    text: `Shopping is one of your biggest categories at ${top.value.toFixed(
+      1
+    )} t/yr. The biggest gains here usually come from buying less often, choosing longer-lasting products, and avoiding unnecessary purchases.`,
+    saving: `Potential saving: ~${Math.max(
+      0.3,
+      top.value * 0.25
+    ).toFixed(1)} t CO₂e/yr · Medium impact, medium effort`,
+    tips: [
+      "Cut back the number of shopping days each week whenever possible.",
+      "Wait 24 hours before making non-essential purchases.",
+      "Choose durable, reusable, or secondhand items instead of fast replacements.",
+      "Bundle purchases into fewer shopping trips to reduce both buying and travel impact.",
+      "Repair or reuse what you already have before replacing it."
+    ],
   };
 }
 
@@ -190,7 +256,6 @@ export default function Calculator({ onBack }) {
           </p>
         </div>
 
-        {/* ── QUESTIONS ── */}
         <h2 className="calc-section-title">Questions</h2>
 
         <div className="calc-controls">
@@ -270,7 +335,6 @@ export default function Calculator({ onBack }) {
           </div>
         </div>
 
-        {/* ── RESULTS ── */}
         <h2 className="calc-section-title">Results</h2>
 
         <div className="calc-summary-grid">
@@ -348,7 +412,6 @@ export default function Calculator({ onBack }) {
           </div>
         </div>
 
-        {/* ── RECOMMENDATIONS ── */}
         <h2 className="calc-section-title">Recommendations</h2>
 
         <div className="calc-best-move">
@@ -356,6 +419,17 @@ export default function Calculator({ onBack }) {
           <h3>{result.bestMove.title}</h3>
           <p>{result.bestMove.text}</p>
           <strong>{result.bestMove.saving}</strong>
+
+          <div style={{ marginTop: "1.2rem", textAlign: "left" }}>
+            <p style={{ fontWeight: 700, marginBottom: "0.75rem" }}>
+              More ways to improve your lifestyle:
+            </p>
+            <ul style={{ paddingLeft: "1.25rem", lineHeight: "1.8" }}>
+              {result.bestMove.tips.map((tip, index) => (
+                <li key={index}>{tip}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
       </section>

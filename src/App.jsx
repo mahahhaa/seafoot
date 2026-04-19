@@ -130,11 +130,6 @@ export default function HomePage() {
               <a href="#" onClick={() => setMenuOpen(false)}>{l}</a>
             </li>
           ))}
-          <li>
-            <a href="#" className="sf-nav-cta" onClick={() => setMenuOpen(false)}>
-              Calculate Now
-            </a>
-          </li>
         </ul>
         <button
           className="sf-hamburger"

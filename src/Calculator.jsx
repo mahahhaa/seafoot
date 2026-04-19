@@ -43,10 +43,15 @@ const DIET_MULTIPLIERS = {
   high_meat: 1.8,
 };
 
-const SHOPPING_MULTIPLIERS = {
-  low: 0.6,
-  medium: 1.0,
-  high: 1.6,
+const SHOPPING_DAYS_TO_TONS = {
+  0: 0.2,
+  1: 0.4,
+  2: 0.7,
+  3: 1.0,
+  4: 1.3,
+  5: 1.5,
+  6: 1.7,
+  7: 1.9,
 };
 
 function clamp(num, min, max) {
@@ -60,6 +65,11 @@ function formatTons(value) {
 function formatPercent(value) {
   const rounded = Math.round(value);
   return `${rounded > 0 ? "+" : ""}${rounded}%`;
+}
+
+function cleanNumberInput(value) {
+  if (value === "") return "";
+  return String(Number(value));
 }
 
 function getBestMove(categories, form, city) {
@@ -139,25 +149,28 @@ function getBestMove(categories, form, city) {
 export default function Calculator({ onBack }) {
   const [city, setCity] = useState("Los Angeles, CA");
   const [form, setForm] = useState({
-    milesPerWeek: 180,
+    milesPerWeek: "180",
     hasEV: false,
-    electricityKwhMonth: 420,
+    electricityKwhMonth: "420",
     diet: "mixed",
-    shopping: "medium",
-    flightsPerYear: 2,
+    shoppingDays: "2",
+    flightsPerYear: "2",
   });
 
   const cityInfo = CITY_DATA[city];
 
   const result = useMemo(() => {
-    const annualMiles = form.milesPerWeek * 52;
+    const milesPerWeek = Number(form.milesPerWeek) || 0;
+    const electricityKwhMonth = Number(form.electricityKwhMonth) || 0;
+    const flightsPerYear = Number(form.flightsPerYear) || 0;
+
+    const annualMiles = milesPerWeek * 52;
     const transportKgPerMile = form.hasEV ? 0.11 : 0.36;
     const transport = (annualMiles * transportKgPerMile) / 1000;
-    const home =
-      (form.electricityKwhMonth * 12 * cityInfo.gridKgPerKwh) / 1000;
+    const home = (electricityKwhMonth * 12 * cityInfo.gridKgPerKwh) / 1000;
     const dietTons = DIET_MULTIPLIERS[form.diet];
-    const shoppingTons = SHOPPING_MULTIPLIERS[form.shopping];
-    const flightsTons = form.flightsPerYear * 0.9;
+    const shoppingTons = SHOPPING_DAYS_TO_TONS[form.shoppingDays];
+    const flightsTons = flightsPerYear * 0.9;
 
     const total = transport + home + dietTons + shoppingTons + flightsTons;
 
@@ -227,7 +240,9 @@ export default function Calculator({ onBack }) {
                 type="number"
                 min="0"
                 value={form.milesPerWeek}
-                onChange={(e) => updateField("milesPerWeek", Number(e.target.value))}
+                onChange={(e) =>
+                  updateField("milesPerWeek", cleanNumberInput(e.target.value))
+                }
               />
             </label>
 
@@ -237,7 +252,9 @@ export default function Calculator({ onBack }) {
                 type="number"
                 min="0"
                 value={form.electricityKwhMonth}
-                onChange={(e) => updateField("electricityKwhMonth", Number(e.target.value))}
+                onChange={(e) =>
+                  updateField("electricityKwhMonth", cleanNumberInput(e.target.value))
+                }
               />
             </label>
 
@@ -255,14 +272,16 @@ export default function Calculator({ onBack }) {
             </label>
 
             <label className="calc-field">
-              <span>Shopping level</span>
+              <span>Shopping Frequency (times a week)</span>
               <select
-                value={form.shopping}
-                onChange={(e) => updateField("shopping", e.target.value)}
+                value={form.shoppingDays}
+                onChange={(e) => updateField("shoppingDays", e.target.value)}
               >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                {[0, 1, 2, 3, 4, 5, 6, 7].map((day) => (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                ))}
               </select>
             </label>
 
@@ -272,7 +291,9 @@ export default function Calculator({ onBack }) {
                 type="number"
                 min="0"
                 value={form.flightsPerYear}
-                onChange={(e) => updateField("flightsPerYear", Number(e.target.value))}
+                onChange={(e) =>
+                  updateField("flightsPerYear", cleanNumberInput(e.target.value))
+                }
               />
             </label>
 
